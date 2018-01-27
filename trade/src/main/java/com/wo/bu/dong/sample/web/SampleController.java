@@ -1,11 +1,11 @@
-package com.wo.bu.dong.trade.sample.web;
+package com.wo.bu.dong.sample.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.wo.bu.dong.trade.sample.service.SampleService;
+import com.wo.bu.dong.sample.service.SampleService;
 
 import lombok.extern.slf4j.Slf4j;
 

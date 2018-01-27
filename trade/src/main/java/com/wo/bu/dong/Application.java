@@ -1,4 +1,4 @@
-package com.wo.bu.dong.trade;
+package com.wo.bu.dong;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

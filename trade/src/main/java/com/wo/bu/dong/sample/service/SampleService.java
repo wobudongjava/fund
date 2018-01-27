@@ -1,4 +1,4 @@
-package com.wo.bu.dong.trade.sample.service;
+package com.wo.bu.dong.sample.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
