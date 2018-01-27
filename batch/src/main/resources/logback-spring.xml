@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 日志信息格式 -->
+    <property name="PATTERN" value="%d{HH:mm:ss.SSS} [%thread][%T] %-5level %logger{36} - %msg%n"/>
+	
+	<springProfile name="staging">
+		<!-- configuration to be enabled when the "staging" profile is active -->
+	</springProfile>
+
+	<springProfile name="dev, staging">
+		<!-- configuration to be enabled when the "dev" or "staging" profiles are 
+			active -->
+	</springProfile>
+
+	<springProfile name="!production">
+		<!-- configuration to be enabled when the "production" profile is not active -->
+	</springProfile>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+		<encoder class="com.wo.bu.dong.common.log.logback.LogBackExtEncoder">
+			<pattern>${PATTERN}</pattern>
+		</encoder>
+	</appender>
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>
