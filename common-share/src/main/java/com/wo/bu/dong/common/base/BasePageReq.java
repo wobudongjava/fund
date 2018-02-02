@@ -9,7 +9,8 @@ import lombok.Setter;
  * 基于mytatis-pageHelper插件，分页请求 注：pageNum,pageSize = 0 或
  * null->查询所有;pageNum,pageSize等于0时，会查询所有,并返回总记录数
  */
-public class BasePageReq {
-    private Integer pageNum  = 1;
-    private Integer pageSize = 10;
+public class BasePageReq extends BaseReq {
+    private static final long serialVersionUID = 1L;
+    private Integer           pageNum          = 1;
+    private Integer           pageSize         = 10;
 }

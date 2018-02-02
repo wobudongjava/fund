@@ -8,13 +8,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BasePageResp<T> extends BaseResp {
-    private int     pageNum;
-    private int     pageSize;
-    private int     startRow;
-    private int     endRow;
-    private long    total;
-    private int     pages;
-    private boolean count;
-    private List<T> data;
+    private static final long serialVersionUID = 1L;
+
+    private int               pageNum;
+    private int               pageSize;
+    private long              total;
+    private int               pages;
+    private boolean           count;
+    private List<T>           data;
 
 }

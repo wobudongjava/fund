@@ -14,10 +14,16 @@
 	<name>common-share</name>
 
 	<dependencies>
+	   <!-- web -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
+		</dependency>
+		<!-- json -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
 		</dependency>
 	</dependencies>
 </project>

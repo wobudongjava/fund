@@ -1,5 +1,8 @@
 package com.wo.bu.dong.common.base;
 
+/**
+ * 接口处理结果状态
+ */
 public enum BaseResultEnum implements BaseEnum {
     SUCCESS("SUCCESS", "成功"),
     FAIL("FAIL", "失败"),

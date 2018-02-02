@@ -1,5 +1,15 @@
 package com.wo.bu.dong.common.base;
 
-public class BaseReq {
+import java.util.UUID;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class BaseReq extends BaseDto {
+    private static final long serialVersionUID = 1L;
+    //请求流水号（非业务字段）
+    private String            reqNo            = UUID.randomUUID().toString().replaceAll("-", "");
 
 }
