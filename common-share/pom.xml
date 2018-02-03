@@ -14,7 +14,7 @@
 	<name>common-share</name>
 
 	<dependencies>
-	   <!-- web -->
+		<!-- web -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
@@ -24,6 +24,12 @@
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
+		</dependency>
+		<!-- ssh-Secure Shell -->
+		<dependency>
+			<groupId>com.jcraft</groupId>
+			<artifactId>jsch</artifactId>
+			<version>0.1.54</version>
 		</dependency>
 	</dependencies>
 </project>
