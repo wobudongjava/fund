@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.wo.bu.dong.sample.dto.SampleDto;
+import com.wo.bu.dong.sample.dto.SampleDTO;
 import com.wo.bu.dong.sample.service.SampleService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,9 +29,9 @@ public class SampleController {
 
     @GetMapping("data/null")
     @ResponseBody
-    public SampleDto sampleTypeNull() {
+    public SampleDTO sampleTypeNull() {
         log.info("sampleType==> begin");
-        SampleDto result = new SampleDto();
+        SampleDTO result = new SampleDTO();
         log.info("sampleType, result={}", result);
         log.info("sampleType==> end");
         return result;
@@ -39,9 +39,9 @@ public class SampleController {
 
     @GetMapping("data/notNull")
     @ResponseBody
-    public SampleDto sampleType() {
+    public SampleDTO sampleType() {
         log.info("sampleType==> begin");
-        SampleDto result = new SampleDto();
+        SampleDTO result = new SampleDTO();
         result.init();
         log.info("sampleType, result={}", result);
         log.info("sampleType==> end");

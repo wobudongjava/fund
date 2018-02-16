@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BaseReq extends BaseDto {
+public abstract class BaseReq extends BaseDto {
     private static final long serialVersionUID = 1L;
     //请求流水号（非业务字段）
     private String            reqNo            = UUID.randomUUID().toString().replaceAll("-", "");

@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.wo.bu.dong.sample.dto.SampleDto;
+import com.wo.bu.dong.common.base.BaseResp;
+import com.wo.bu.dong.sample.dto.SampleDTO;
+import com.wo.bu.dong.sample.req.CarReq;
 import com.wo.bu.dong.sample.service.SampleService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,9 +31,9 @@ public class SampleController {
 
     @GetMapping("data/null")
     @ResponseBody
-    public SampleDto sampleTypeNull() {
+    public SampleDTO sampleTypeNull() {
         log.info("sampleType==> begin");
-        SampleDto result = new SampleDto();
+        SampleDTO result = new SampleDTO();
         log.info("sampleType, result={}", result);
         log.info("sampleType==> end");
         return result;
@@ -39,12 +41,46 @@ public class SampleController {
 
     @GetMapping("data/notNull")
     @ResponseBody
-    public SampleDto sampleType() {
+    public SampleDTO sampleType() {
         log.info("sampleType==> begin");
-        SampleDto result = new SampleDto();
+        SampleDTO result = new SampleDTO();
         result.init();
         log.info("sampleType, result={}", result);
         log.info("sampleType==> end");
+        return result;
+    }
+
+    @GetMapping("validation/valid")
+    @ResponseBody
+    public BaseResp carIsValid() {
+        CarReq car = new CarReq("Sunny", "DD-AB-123", 2);
+        log.info("carIsValid==> begin, params={}", car);
+        BaseResp result = null;
+        try {
+            result = sampleService.carIsValid(car);
+        } catch (Exception e) {
+            log.error("异常", e);
+            result = new BaseResp();
+        }
+        log.info("carIsValid, result={}", result);
+        log.info("carIsValid==> end");
+        return result;
+    }
+
+    @GetMapping("validation/notValid")
+    @ResponseBody
+    public BaseResp carIsNotValid() {
+        CarReq car = new CarReq("Sunny", "D", 4);
+        log.info("carIsNotValid==> begin, params={}", car);
+        BaseResp result = null;
+        try {
+            result = sampleService.carIsValid(car);
+        } catch (Exception e) {
+            log.error("异常", e);
+            result = new BaseResp();
+        }
+        log.info("carIsNotValid, result={}", result);
+        log.info("carIsNotValid==> end");
         return result;
     }
 

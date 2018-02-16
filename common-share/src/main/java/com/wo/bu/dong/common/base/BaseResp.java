@@ -6,30 +6,58 @@ import lombok.Getter;
 public class BaseResp extends BaseDto {
     private static final long serialVersionUID = 1L;
 
-    private BaseResultEnum    resultStatus;         //处理结果状态
+    private BaseResultEnum    status;               //处理结果状态
     private String            code;                 //业务应答码
     private String            message;              //业务描述
     private String            detail;               //业务描述详细信息
 
     public BaseResp() {
-        resultStatus = BaseResultEnum.SUCCESS;
+        this.status = BaseResultEnum.SUCCESS;
+        this.code = "000";
+    }
+
+    public BaseResp(BaseResultEnum status) {
+        this.status = status;
+    }
+
+    public BaseResp(BaseResultEnum status, String detail) {
+        this.status = status;
+        this.detail = detail;
     }
 
     public BaseResp(BaseEnum baseEnum) {
+        this();
         this.code = baseEnum.getCode();
         this.message = baseEnum.getMessage();
     }
 
-    public BaseResp(BaseResultEnum resultStatus, BaseEnum baseEnum) {
-        this.resultStatus = resultStatus;
+    public BaseResp(BaseEnum baseEnum, String detail) {
+        this();
+        this.code = baseEnum.getCode();
         this.message = baseEnum.getMessage();
     }
 
-    public BaseResp(BaseResultEnum resultStatus, String code, String message, String detail) {
-        this.resultStatus = resultStatus;
-        this.code = code;
-        this.message = message;
+    public BaseResp(String detail) {
+        this();
         this.detail = detail;
+    }
+
+    public BaseResp(BaseResultEnum status, BaseEnum baseEnum) {
+        this();
+        this.status = status;
+        this.message = baseEnum.getMessage();
+    }
+
+    public BaseResp(BaseResultEnum status, BaseEnum baseEnum, String detail) {
+        this();
+        this.status = status;
+        this.code = baseEnum.getCode();
+        this.message = baseEnum.getMessage();
+        this.detail = detail;
+    }
+
+    public void setResult(BaseResultEnum status) {
+        this.status = status;
     }
 
     public void setResult(BaseEnum baseEnum) {
@@ -43,21 +71,21 @@ public class BaseResp extends BaseDto {
         this.detail = detail;
     }
 
-    public void setResult(BaseResultEnum resultStatus, BaseEnum baseEnum) {
-        this.resultStatus = resultStatus;
+    public void setResult(BaseResultEnum status, BaseEnum baseEnum) {
+        this.status = status;
         this.code = baseEnum.getCode();
         this.message = baseEnum.getMessage();
     }
 
-    public void setResult(BaseResultEnum resultStatus, BaseEnum baseEnum, String detail) {
-        this.resultStatus = resultStatus;
+    public void setResult(BaseResultEnum status, BaseEnum baseEnum, String detail) {
+        this.status = status;
         this.code = baseEnum.getCode();
         this.message = baseEnum.getMessage();
         this.detail = detail;
     }
 
-    public void setResultStatus(BaseResultEnum resultStatus) {
-        this.resultStatus = resultStatus;
+    public void setstatus(BaseResultEnum status) {
+        this.status = status;
     }
 
     public void setCode(String code) {
