@@ -29,7 +29,7 @@ public class ValidationUtils {
         try {
             constraintViolations = VALIDATOR.validate(param);
         } catch (Exception e) {
-            log.warn("参数校验异常：{},[{}]", e.getMessage(), e);
+            log.warn("参数校验异常：{}", e.getMessage(), e);
             return new BaseResp(BaseResultEnum.EXCEPTION, BaseErrorCodeEnum.PARAM_EXCEPTION, e.getMessage());
         }
         if (constraintViolations.size() == 0) {
@@ -39,7 +39,7 @@ public class ValidationUtils {
         Iterator<ConstraintViolation<T>> iterator = constraintViolations.iterator();
         while (iterator.hasNext()) {
             ConstraintViolation<T> cv = iterator.next();
-            result.setResult(BaseErrorCodeEnum.PARAM_EXCEPTION, cv.getMessage());
+            result.setResult(BaseErrorCodeEnum.PARAM_EXCEPTION, cv.getPropertyPath() + ":" + cv.getMessage());
             break;
         }
         return result;
