@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.wo.bu.dong.common.base.BaseResp;
 import com.wo.bu.dong.sample.dto.SampleDTO;
 import com.wo.bu.dong.sample.req.CarReq;
+import com.wo.bu.dong.sample.resp.CarResp;
 import com.wo.bu.dong.sample.service.SampleService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -52,35 +52,37 @@ public class SampleController {
 
     @GetMapping("validation/valid")
     @ResponseBody
-    public BaseResp carIsValid() {
+    public CarResp carIsValid() {
         CarReq car = new CarReq("Sunny", "DD-AB-123", 2);
         log.info("carIsValid==> begin, params={}", car);
-        BaseResp result = null;
+        CarResp result = null;
         try {
             result = sampleService.carIsValid(car);
         } catch (Exception e) {
-            log.error("异常", e);
-            result = new BaseResp();
+            log.error("carIsValid, 异常", e);
+            result = new CarResp();
+            result.setResultOfSysException(e.getMessage());
         }
         log.info("carIsValid, result={}", result);
         log.info("carIsValid==> end");
         return result;
     }
 
-    @GetMapping("validation/notValid")
+    @GetMapping("validation/invalid")
     @ResponseBody
-    public BaseResp carIsNotValid() {
+    public CarResp carIsInvalid() {
         CarReq car = new CarReq("Sunny", "D", 4);
-        log.info("carIsNotValid==> begin, params={}", car);
-        BaseResp result = null;
+        log.info("carIsInvalid==> begin, params={}", car);
+        CarResp result = null;
         try {
-            result = sampleService.carIsValid(car);
+            result = sampleService.carIsInvalid(car);
         } catch (Exception e) {
-            log.error("异常", e);
-            result = new BaseResp();
+            log.error("carIsInvalid, 异常", e);
+            result = new CarResp();
+            result.setResultOfSysException(e.getMessage());
         }
-        log.info("carIsNotValid, result={}", result);
-        log.info("carIsNotValid==> end");
+        log.info("carIsInvalid, result={}", result);
+        log.info("carIsInvalid==> end");
         return result;
     }
 

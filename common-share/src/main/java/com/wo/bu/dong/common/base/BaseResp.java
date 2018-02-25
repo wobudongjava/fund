@@ -1,102 +1,86 @@
 package com.wo.bu.dong.common.base;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class BaseResp extends BaseDto {
-    private static final long serialVersionUID = 1L;
+    private static final long  serialVersionUID = 1L;
 
-    private BaseResultEnum    status;               //处理结果状态
-    private String            code;                 //业务应答码
-    private String            message;              //业务描述
-    private String            detail;               //业务描述详细信息
+    private BaseFinalStateEnum status;               //处理结果状态
+    private String             code;                 //业务应答码
+    private String             message;              //业务描述
+    private String             detail;               //业务描述详细信息
 
     public BaseResp() {
-        this.status = BaseResultEnum.SUCCESS;
-        this.code = "000";
+        this.status = BaseFinalStateEnum.SUCCESS;
+        this.code = BaseCodeEnum.SUCCESS.getCode();
+        this.message = BaseCodeEnum.SUCCESS.getMessage();
     }
 
-    public BaseResp(BaseResultEnum status) {
+    public BaseResp(BaseFinalStateEnum status) {
         this.status = status;
     }
 
-    public BaseResp(BaseResultEnum status, String detail) {
+    public BaseResp(BaseFinalStateEnum status, BaseEnum code) {
+        this.status = status;
+        this.code = code.getCode();
+        this.message = code.getMessage();
+    }
+
+    public BaseResp(BaseFinalStateEnum status, BaseEnum code, String detail) {
+        this.status = status;
+        this.code = code.getCode();
+        this.message = code.getMessage();
+        this.detail = detail;
+    }
+
+    public void setResult(BaseFinalStateEnum status) {
+        this.status = status;
+    }
+
+    public void setResult(BaseEnum code) {
+        this.code = code.getCode();
+        this.message = code.getMessage();
+    }
+
+    public void setResult(String detail) {
+        this.detail = detail;
+    }
+
+    public void setResult(BaseFinalStateEnum status, BaseEnum code) {
+        this.status = status;
+        this.code = code.getCode();
+        this.message = code.getMessage();
+    }
+
+    public void setResult(BaseFinalStateEnum status, String detail) {
         this.status = status;
         this.detail = detail;
     }
 
-    public BaseResp(BaseEnum baseEnum) {
-        this();
-        this.code = baseEnum.getCode();
-        this.message = baseEnum.getMessage();
-    }
-
-    public BaseResp(BaseEnum baseEnum, String detail) {
-        this();
-        this.code = baseEnum.getCode();
-        this.message = baseEnum.getMessage();
-    }
-
-    public BaseResp(String detail) {
-        this();
+    public void setResult(BaseFinalStateEnum status, BaseEnum code, String detail) {
+        this.status = status;
+        this.code = code.getCode();
+        this.message = code.getMessage();
         this.detail = detail;
     }
 
-    public BaseResp(BaseResultEnum status, BaseEnum baseEnum) {
-        this();
-        this.status = status;
-        this.message = baseEnum.getMessage();
-    }
-
-    public BaseResp(BaseResultEnum status, BaseEnum baseEnum, String detail) {
-        this();
-        this.status = status;
-        this.code = baseEnum.getCode();
-        this.message = baseEnum.getMessage();
+    public void setResult(BaseEnum code, String detail) {
+        this.code = code.getCode();
+        this.message = code.getMessage();
         this.detail = detail;
     }
 
-    public void setResult(BaseResultEnum status) {
-        this.status = status;
-    }
-
-    public void setResult(BaseEnum baseEnum) {
-        this.code = baseEnum.getCode();
-        this.message = baseEnum.getMessage();
-    }
-
-    public void setResult(BaseEnum baseEnum, String detail) {
-        this.code = baseEnum.getCode();
-        this.message = baseEnum.getMessage();
+    public void setResultOfSysException(String detail) {
+        this.status = BaseFinalStateEnum.EXCEPTION;
+        this.code = BaseCodeEnum.SYS_EXCEPTION.getCode();
+        this.message = BaseCodeEnum.SYS_EXCEPTION.getMessage();
         this.detail = detail;
     }
 
-    public void setResult(BaseResultEnum status, BaseEnum baseEnum) {
-        this.status = status;
-        this.code = baseEnum.getCode();
-        this.message = baseEnum.getMessage();
-    }
-
-    public void setResult(BaseResultEnum status, BaseEnum baseEnum, String detail) {
-        this.status = status;
-        this.code = baseEnum.getCode();
-        this.message = baseEnum.getMessage();
-        this.detail = detail;
-    }
-
-    public void setstatus(BaseResultEnum status) {
-        this.status = status;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
+    public boolean isSuccess() {
+        return this.status == BaseFinalStateEnum.SUCCESS;
     }
 }

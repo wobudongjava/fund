@@ -7,9 +7,9 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
-import com.wo.bu.dong.common.base.BaseErrorCodeEnum;
+import com.wo.bu.dong.common.base.BaseCodeEnum;
+import com.wo.bu.dong.common.base.BaseFinalStateEnum;
 import com.wo.bu.dong.common.base.BaseResp;
-import com.wo.bu.dong.common.base.BaseResultEnum;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,17 +29,17 @@ public class ValidationUtils {
         try {
             constraintViolations = VALIDATOR.validate(param);
         } catch (Exception e) {
-            log.warn("参数校验异常：{}", e.getMessage(), e);
-            return new BaseResp(BaseResultEnum.EXCEPTION, BaseErrorCodeEnum.PARAM_EXCEPTION, e.getMessage());
+            log.error("参数校验异常：{}", e.getMessage(), e);
+            return new BaseResp(BaseFinalStateEnum.EXCEPTION, BaseCodeEnum.SYS_EXCEPTION, e.getMessage());
         }
         if (constraintViolations.size() == 0) {
             return null;
         }
-        BaseResp result = new BaseResp(BaseResultEnum.EXCEPTION);
+        BaseResp result = new BaseResp(BaseFinalStateEnum.EXCEPTION, BaseCodeEnum.PARAM_EXCEPTION);
         Iterator<ConstraintViolation<T>> iterator = constraintViolations.iterator();
         while (iterator.hasNext()) {
             ConstraintViolation<T> cv = iterator.next();
-            result.setResult(BaseErrorCodeEnum.PARAM_EXCEPTION, cv.getPropertyPath() + ":" + cv.getMessage());
+            result.setResult(cv.getPropertyPath() + ":" + cv.getMessage());
             break;
         }
         return result;

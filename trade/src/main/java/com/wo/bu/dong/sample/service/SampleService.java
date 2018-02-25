@@ -1,11 +1,13 @@
 package com.wo.bu.dong.sample.service;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.wo.bu.dong.common.base.BaseResp;
 import com.wo.bu.dong.common.validation.ValidationUtils;
 import com.wo.bu.dong.sample.req.CarReq;
+import com.wo.bu.dong.sample.resp.CarResp;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,19 +26,30 @@ public class SampleService {
         return "Hello " + this.name;
     }
 
-    public BaseResp carIsValid(CarReq car) {
+    public CarResp carIsValid(CarReq car) {
+        log.info("carIsValid==> begin, params={}", car);
         BaseResp validateResult = ValidationUtils.validateReqParam(car);
+        CarResp result = new CarResp();
         if (validateResult != null) {
-            return validateResult;
+            log.warn("carIsValid, validateResult={}", validateResult);
+            BeanUtils.copyProperties(validateResult, result);
+            return result;
         }
-        return new BaseResp("car is valid");
+        result.setResult("car is valid");
+        log.info("carIsValid==> end");
+        return result;
     }
 
-    public BaseResp carIsNotValid(CarReq car) {
+    public CarResp carIsInvalid(CarReq car) {
+        log.info("carIsInValid==> begin, params={}", car);
         BaseResp validateResult = ValidationUtils.validateReqParam(car);
+        CarResp result = new CarResp();
         if (validateResult != null) {
-            return validateResult;
+            log.warn("carIsValid, validateResult={}", validateResult);
+            BeanUtils.copyProperties(validateResult, result);
+            return result;
         }
-        return new BaseResp();
+        log.info("carIsInValid==> end");
+        return result;
     }
 }
