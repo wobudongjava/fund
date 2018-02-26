@@ -11,7 +11,7 @@ import com.google.gson.GsonBuilder;
 /**
  * dto基础类
  */
-public abstract class BaseDto implements Serializable, Cloneable {
+public abstract class BaseDTO implements Serializable, Cloneable {
     private static final long   serialVersionUID = 1L;
 
     //JSON格式化工具

@@ -4,14 +4,14 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.wo.bu.dong.common.base.BaseReq;
+import com.wo.bu.dong.common.base.BaseReqDTO;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class CarReq extends BaseReq {
+public class CarReq extends BaseReqDTO {
     private static final long serialVersionUID = 1L;
 
     @NotNull

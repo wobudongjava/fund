@@ -3,14 +3,14 @@ package com.wo.bu.dong.sample.dto;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.wo.bu.dong.common.base.BaseDto;
+import com.wo.bu.dong.common.base.BaseDTO;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class SampleDTO extends BaseDto {
+public class SampleDTO extends BaseDTO {
 
     private static final long serialVersionUID = 1L;
 

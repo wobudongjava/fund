@@ -9,7 +9,7 @@ import javax.validation.Validator;
 
 import com.wo.bu.dong.common.base.BaseCodeEnum;
 import com.wo.bu.dong.common.base.BaseFinalStateEnum;
-import com.wo.bu.dong.common.base.BaseResp;
+import com.wo.bu.dong.common.base.BaseRespDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,18 +24,18 @@ public class ValidationUtils {
      * @param param 待校验参数
      * @return null 校验通过，not null 校验不通过
      */
-    public static <T> BaseResp validateReqParam(T param) {
+    public static <T> BaseRespDTO validateReqParam(T param) {
         Set<ConstraintViolation<T>> constraintViolations = null;
         try {
             constraintViolations = VALIDATOR.validate(param);
         } catch (Exception e) {
             log.error("参数校验异常：{}", e.getMessage(), e);
-            return new BaseResp(BaseFinalStateEnum.EXCEPTION, BaseCodeEnum.SYS_EXCEPTION, e.getMessage());
+            return new BaseRespDTO(BaseFinalStateEnum.EXCEPTION, BaseCodeEnum.SYS_EXCEPTION, e.getMessage());
         }
         if (constraintViolations.size() == 0) {
             return null;
         }
-        BaseResp result = new BaseResp(BaseFinalStateEnum.EXCEPTION, BaseCodeEnum.PARAM_EXCEPTION);
+        BaseRespDTO result = new BaseRespDTO(BaseFinalStateEnum.EXCEPTION, BaseCodeEnum.PARAM_EXCEPTION);
         Iterator<ConstraintViolation<T>> iterator = constraintViolations.iterator();
         while (iterator.hasNext()) {
             ConstraintViolation<T> cv = iterator.next();

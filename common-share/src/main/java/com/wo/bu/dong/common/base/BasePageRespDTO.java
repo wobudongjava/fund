@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class BasePageResp<T> extends BaseResp {
+public abstract class BasePageRespDTO<T> extends BaseRespDTO {
     private static final long serialVersionUID = 1L;
 
     private int               pageNum;

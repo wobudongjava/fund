@@ -31,5 +31,15 @@
 			<artifactId>jsch</artifactId>
 			<version>0.1.54</version>
 		</dependency>
+		<!-- cache clients -->
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+		</dependency>
+		<!-- Spring Boot -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot</artifactId>
+		</dependency>
 	</dependencies>
 </project>

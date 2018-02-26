@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BaseResp extends BaseDto {
+public class BaseRespDTO extends BaseDTO {
     private static final long  serialVersionUID = 1L;
 
     private BaseFinalStateEnum status;               //处理结果状态
@@ -13,23 +13,23 @@ public class BaseResp extends BaseDto {
     private String             message;              //业务描述
     private String             detail;               //业务描述详细信息
 
-    public BaseResp() {
+    public BaseRespDTO() {
         this.status = BaseFinalStateEnum.SUCCESS;
         this.code = BaseCodeEnum.SUCCESS.getCode();
         this.message = BaseCodeEnum.SUCCESS.getMessage();
     }
 
-    public BaseResp(BaseFinalStateEnum status) {
+    public BaseRespDTO(BaseFinalStateEnum status) {
         this.status = status;
     }
 
-    public BaseResp(BaseFinalStateEnum status, BaseEnum code) {
+    public BaseRespDTO(BaseFinalStateEnum status, BaseEnum code) {
         this.status = status;
         this.code = code.getCode();
         this.message = code.getMessage();
     }
 
-    public BaseResp(BaseFinalStateEnum status, BaseEnum code, String detail) {
+    public BaseRespDTO(BaseFinalStateEnum status, BaseEnum code, String detail) {
         this.status = status;
         this.code = code.getCode();
         this.message = code.getMessage();
