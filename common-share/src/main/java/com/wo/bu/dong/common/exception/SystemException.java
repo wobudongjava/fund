@@ -1,5 +1,8 @@
 package com.wo.bu.dong.common.exception;
 
+/**
+ * 系统异常
+ */
 public class SystemException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;

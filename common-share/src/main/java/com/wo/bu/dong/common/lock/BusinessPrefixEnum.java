@@ -1,25 +1,17 @@
 package com.wo.bu.dong.common.lock;
 
-import com.wo.bu.dong.common.base.BaseEnum;
+public enum BusinessPrefixEnum {
+    SAMPLE("样例"),
+    TRADE("交易"),
+    BATCH("定时任务");
+    private String summary;
 
-public enum BusinessPrefixEnum implements BaseEnum {
-    ;
-    private String code;
-    private String message;
-
-    @Override
-    public String getCode() {
-        return code;
+    BusinessPrefixEnum(String summary) {
+        this.summary = summary;
     }
 
-    BusinessPrefixEnum(String code, String message) {
-        this.code = code;
-        this.message = message;
-    }
-
-    @Override
-    public String getMessage() {
-        return message;
+    public String getSummary() {
+        return summary;
     }
 
 }

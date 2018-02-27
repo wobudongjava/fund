@@ -6,6 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.wo.bu.dong.common.base.BaseRespDTO;
+import com.wo.bu.dong.common.exception.LockException;
+import com.wo.bu.dong.common.lock.BusinessPrefixEnum;
+import com.wo.bu.dong.common.lock.MyLock;
 import com.wo.bu.dong.sample.dto.SampleDTO;
 import com.wo.bu.dong.sample.req.CarReq;
 import com.wo.bu.dong.sample.resp.CarResp;
@@ -19,6 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 public class SampleController {
     @Autowired
     private SampleService sampleService;
+    @Autowired
+    private MyLock        lock;
 
     @GetMapping("/")
     @ResponseBody
@@ -83,6 +89,36 @@ public class SampleController {
         }
         log.info("carIsInvalid, result={}", result);
         log.info("carIsInvalid==> end");
+        return result;
+    }
+
+    @GetMapping("lock")
+    @ResponseBody
+    public BaseRespDTO lock() {
+        log.info("lock==> begin");
+        BaseRespDTO result = null;
+        String uniqueKey = System.currentTimeMillis() + "";
+        boolean isLocked = false;
+        try {
+            //加锁
+            String value = "value_" + uniqueKey;
+            isLocked = lock.tryLock(BusinessPrefixEnum.SAMPLE, uniqueKey, value);
+            if (!isLocked) {
+                throw new LockException("未获取到锁");
+            }
+            result = new BaseRespDTO();
+            result.setDetail("加锁成功");
+        } catch (Exception e) {
+            log.error("lock, 异常", e);
+            result = BaseRespDTO.getResultOfSysException(e.getMessage());
+        } finally {
+            //解锁
+            if (isLocked) {
+                lock.unlock(BusinessPrefixEnum.SAMPLE, uniqueKey);
+            }
+        }
+        log.info("lock, result={}", result);
+        log.info("lock==> end");
         return result;
     }
 

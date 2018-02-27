@@ -83,4 +83,8 @@ public class BaseRespDTO extends BaseDTO {
     public boolean isSuccess() {
         return this.status == BaseFinalStateEnum.SUCCESS;
     }
+
+    public static BaseRespDTO getResultOfSysException(String detail) {
+        return new BaseRespDTO(BaseFinalStateEnum.EXCEPTION, BaseCodeEnum.SYS_EXCEPTION, detail);
+    }
 }

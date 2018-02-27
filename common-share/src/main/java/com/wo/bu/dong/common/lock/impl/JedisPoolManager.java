@@ -17,8 +17,7 @@ import redis.clients.jedis.JedisPoolConfig;
 public class JedisPoolManager {
     private final JedisPool pool;
 
-    @Autowired
-    public JedisPoolManager(RedisConfig redisConfig) {
+    private JedisPool init(RedisConfig redisConfig) {
         //初始化连接池
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         Pool poolPro = redisConfig.getPool();
@@ -31,7 +30,12 @@ public class JedisPoolManager {
         jedisPoolConfig.setTestOnReturn(poolPro.isTestOnReturn());
         jedisPoolConfig.setTestWhileIdle(poolPro.isTestWhileIdle());
 
-        pool = new JedisPool(jedisPoolConfig, redisConfig.getServer(), redisConfig.getPort(), redisConfig.getConnectionTimeout(), redisConfig.getPassword());
+        return new JedisPool(jedisPoolConfig, redisConfig.getServer(), redisConfig.getPort(), redisConfig.getConnectionTimeout(), redisConfig.getPassword());
+    }
+
+    @Autowired
+    public JedisPoolManager(RedisConfig redisConfig) {
+        pool = init(redisConfig);
     }
 
     /**
@@ -45,7 +49,7 @@ public class JedisPoolManager {
             jedis = pool.getResource();
         } catch (Exception e) {
             log.error("getJedis, 获取jedis异常", e);
-            throw new SystemException("系统异常", e);
+            throw new SystemException("系统异常-jedis获取失败", e);
         }
         return jedis;
     }
