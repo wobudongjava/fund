@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 项目名称 -->
+    <property name="project.name" value="fund-sample" />
+    <!-- 日志文件存储目录 -->
+    <property name="log.dir" value="/home/logs/${project.name}" />
+    <!-- info日志文件 -->
+    <property name="info.name" value="${log.dir}/${project.name}.log" />
+    <property name="info.fileName.pattern" value="${log.dir}/${project.name}-%d{yyyy-MM-dd}.log" />
+    <!-- error日志文件 -->
+    <property name="error.name" value="${log.dir}/${project.name}-error.log" />
+    <property name="error.fileName.pattern" value="${log.dir}/${project.name}-error-%d{yyyy-MM-dd}.log" />
+    <!-- 日志信息格式 -->
+    <!-- %d:时间  %thread：当前线程名称 %-5p：日志级别 %c：输出日志的logger %F：输出日志的类名 %M：输出日志的方法名 %L：日志所在行号 %msg：日志信息 %n：换行 -->
+    <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5p [%T] [%c] [%F:%M:%L] - %msg%n"/>
+
+    <!-- 日志输出到控制台 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder class="com.wo.bu.dong.common.log.logback.LogBackExtEncoder">
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+    <!-- INFO日志输出到指定文件 -->
+    <appender name="INFOOUTFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${info.name}</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${info.fileName.pattern}</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder charset="UTF-8" class="com.wo.bu.dong.common.log.logback.LogBackExtEncoder">
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+    <!-- ERROR日志输出到指定文件 -->
+    <appender name="ERROROUTFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${error.name}</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${error.fileName.pattern}</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder charset="UTF-8" class="com.wo.bu.dong.common.log.logback.LogBackExtEncoder">
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+    
+    <springProfile name="dev">
+        <!-- configuration to be enabled when the "dev" profile is active -->
+        <root level="INFO">
+            <appender-ref ref="STDOUT" />
+        </root>
+    </springProfile>
+    
+    <springProfile name="dev-debug">
+        <!-- configuration to be enabled when the "dev" profile is active -->
+        <root level="DEBUG">
+            <appender-ref ref="STDOUT" />
+        </root>
+    </springProfile>
+
+    <springProfile name="test, production">
+        <!-- configuration to be enabled when the "test" or "production" profiles are active -->
+        <root level="INFO">
+            <appender-ref ref="INFOOUTFILE" />
+            <appender-ref ref="ERROROUTFILE" />
+        </root>
+    </springProfile>
+
+    <springProfile name="!production">
+        <!-- configuration to be enabled when the "production" profile is not active -->
+    </springProfile>
+
+</configuration>

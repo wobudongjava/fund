@@ -14,7 +14,6 @@ public abstract class BasePageRespDTO<T> extends BaseRespDTO {
     private int               pageSize;
     private long              total;
     private int               pages;
-    private boolean           count;
     private List<T>           data;
 
 }

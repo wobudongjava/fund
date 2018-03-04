@@ -26,6 +26,7 @@
 		<module>common-share</module>
 		<module>trade</module>
 		<module>batch</module>
+		<module>sample</module>
 	</modules>
 
 	<dependencies>

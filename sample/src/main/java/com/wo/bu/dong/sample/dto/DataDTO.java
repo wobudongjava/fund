@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SampleDTO extends BaseDTO {
+public class DataDTO extends BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
@@ -25,6 +25,7 @@ public class SampleDTO extends BaseDTO {
     private String            sampleString;
     private BigDecimal        sampleBigDecimal;
     private Date              sampleDate;
+    private Object            sampleOjbect;
 
     public void init() {
         this.sampleBoolean = true;
