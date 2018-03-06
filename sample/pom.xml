@@ -8,8 +8,8 @@
 		<artifactId>fund</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>trade</artifactId>
-	<name>trade</name>
+	<artifactId>sample</artifactId>
+	<name>sample</name>
 
 	<dependencies>
 		<dependency>
