@@ -3,13 +3,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.wo.bu.dong</groupId>
-		<artifactId>fund</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
-
+	<groupId>com.wo.bu.dong</groupId>
 	<artifactId>common-share</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>common-share</name>
 
@@ -102,9 +98,21 @@
 			<artifactId>logback-classic</artifactId>
 		</dependency>
 	</dependencies>
-	<build>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.wo.bu.dong</groupId>
+				<artifactId>fund</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+				<type>pom</type>
+				<scope>import</scope>
+				<systemPath>../pom.xml</systemPath>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	<!-- <build>
 		<plugins>
-			<!-- disbale parent pom plugin begin -->
+			disbale parent pom plugin begin
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -128,7 +136,7 @@
 					<skip>true</skip>
 				</configuration>
 			</plugin>
-			<!-- disbale parent pom plugin end -->
+			disbale parent pom plugin end
 		</plugins>
-	</build>
+	</build> -->
 </project>
