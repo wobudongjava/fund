@@ -3013,8 +3013,8 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-		<plugins>
-			<!-- spring-boot-dependencies start -->
+		<!-- <plugins>
+			spring-boot-dependencies start
 			<plugin>
 				<artifactId>maven-help-plugin</artifactId>
 				<inherited>false</inherited>
@@ -3026,12 +3026,12 @@
 							<goal>effective-pom</goal>
 						</goals>
 						<configuration>
-							<output>${project.build.directory}/effective-pom/spring-boot-dependencies.xml</output>
+							<output>${project.build.directory}/effective-pom/fund-dependencies.xml</output>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
-			<!-- <plugin>
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>xml-maven-plugin</artifactId>
 				<version>1.0</version>
@@ -3052,7 +3052,7 @@
 						</transformationSet>
 					</transformationSets>
 				</configuration>
-			</plugin> -->
+			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
@@ -3075,9 +3075,9 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- spring-boot-dependencies end -->
-			<!-- spring-boot-starter-parent begin -->
-			<!-- Apply more sensible defaults for user projects -->
+			spring-boot-dependencies end
+			spring-boot-starter-parent begin
+			Apply more sensible defaults for user projects
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
@@ -3162,7 +3162,7 @@
 					<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
 				</configuration>
 			</plugin>
-			<!-- Support our own plugin -->
+			Support our own plugin
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -3177,7 +3177,7 @@
 					<mainClass>${start-class}</mainClass>
 				</configuration>
 			</plugin>
-			<!-- Support shade packaging (if the user does not want to use our plugin) -->
+			Support shade packaging (if the user does not want to use our plugin)
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
@@ -3233,8 +3233,8 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- spring-boot-starter-parent end -->
-		</plugins>
+			spring-boot-starter-parent end
+		</plugins> -->
 	</build>
 
 </project>
