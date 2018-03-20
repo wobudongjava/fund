@@ -2824,6 +2824,12 @@
 				<artifactId>xstream</artifactId>
 				<version>1.4.10</version>
 			</dependency>
+			<!-- csv -->
+			<dependency>
+				<groupId>com.opencsv</groupId>
+				<artifactId>opencsv</artifactId>
+				<version>4.1</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -3013,228 +3019,67 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-		<!-- <plugins>
-			spring-boot-dependencies start
-			<plugin>
-				<artifactId>maven-help-plugin</artifactId>
-				<inherited>false</inherited>
-				<executions>
-					<execution>
-						<id>generate-effective-dependencies-pom</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>effective-pom</goal>
-						</goals>
-						<configuration>
-							<output>${project.build.directory}/effective-pom/fund-dependencies.xml</output>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>xml-maven-plugin</artifactId>
-				<version>1.0</version>
-				<inherited>false</inherited>
-				<executions>
-					<execution>
-						<goals>
-							<goal>transform</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<transformationSets>
-						<transformationSet>
-							<dir>${project.build.directory}/effective-pom</dir>
-							<stylesheet>src/main/xslt/single-project.xsl</stylesheet>
-							<outputDir>${project.build.directory}/effective-pom</outputDir>
-						</transformationSet>
-					</transformationSets>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<inherited>false</inherited>
-				<executions>
-					<execution>
-						<id>attach-artifacts</id>
-						<phase>package</phase>
-						<goals>
-							<goal>attach-artifact</goal>
-						</goals>
-						<configuration>
-							<artifacts>
-								<artifact>
-									<file>${project.build.directory}/effective-pom/spring-boot-dependencies.xml</file>
-									<type>effective-pom</type>
-								</artifact>
-							</artifacts>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			spring-boot-dependencies end
-			spring-boot-starter-parent begin
-			Apply more sensible defaults for user projects
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>integration-test</goal>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>${start-class}</mainClass>
-							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<includes>
-						<include>**/*Tests.java</include>
-						<include>**/*Test.java</include>
-					</includes>
-					<excludes>
-						<exclude>**/Abstract*.java</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-					<archive>
-						<manifest>
-							<mainClass>${start-class}</mainClass>
-							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<configuration>
-					<mainClass>${start-class}</mainClass>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<configuration>
-					<delimiters>
-						<delimiter>${resource.delimiter}</delimiter>
-					</delimiters>
-					<useDefaultDelimiters>false</useDefaultDelimiters>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>pl.project13.maven</groupId>
-				<artifactId>git-commit-id-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>revision</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<verbose>true</verbose>
-					<dateFormat>yyyy-MM-dd'T'HH:mm:ssZ</dateFormat>
-					<generateGitPropertiesFile>true</generateGitPropertiesFile>
-					<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
-				</configuration>
-			</plugin>
-			Support our own plugin
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<mainClass>${start-class}</mainClass>
-				</configuration>
-			</plugin>
-			Support shade packaging (if the user does not want to use our plugin)
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<dependencies>
-					<dependency>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-maven-plugin</artifactId>
-						<version>1.5.10.RELEASE</version>
-					</dependency>
-				</dependencies>
-				<configuration>
-					<keepDependenciesWithProvidedScope>true</keepDependenciesWithProvidedScope>
-					<createDependencyReducedPom>true</createDependencyReducedPom>
-					<filters>
-						<filter>
-							<artifact>*:*</artifact>
-							<excludes>
-								<exclude>META-INF/*.SF</exclude>
-								<exclude>META-INF/*.DSA</exclude>
-								<exclude>META-INF/*.RSA</exclude>
-							</excludes>
-						</filter>
-					</filters>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-						<configuration>
-							<transformers>
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-									<resource>META-INF/spring.handlers</resource>
-								</transformer>
-								<transformer
-									implementation="org.springframework.boot.maven.PropertiesMergingResourceTransformer">
-									<resource>META-INF/spring.factories</resource>
-								</transformer>
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-									<resource>META-INF/spring.schemas</resource>
-								</transformer>
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>${start-class}</mainClass>
-								</transformer>
-							</transformers>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			spring-boot-starter-parent end
-		</plugins> -->
+		<!-- <plugins> spring-boot-dependencies start <plugin> <artifactId>maven-help-plugin</artifactId> 
+			<inherited>false</inherited> <executions> <execution> <id>generate-effective-dependencies-pom</id> 
+			<phase>generate-resources</phase> <goals> <goal>effective-pom</goal> </goals> 
+			<configuration> <output>${project.build.directory}/effective-pom/fund-dependencies.xml</output> 
+			</configuration> </execution> </executions> </plugin> <plugin> <groupId>org.codehaus.mojo</groupId> 
+			<artifactId>xml-maven-plugin</artifactId> <version>1.0</version> <inherited>false</inherited> 
+			<executions> <execution> <goals> <goal>transform</goal> </goals> </execution> 
+			</executions> <configuration> <transformationSets> <transformationSet> <dir>${project.build.directory}/effective-pom</dir> 
+			<stylesheet>src/main/xslt/single-project.xsl</stylesheet> <outputDir>${project.build.directory}/effective-pom</outputDir> 
+			</transformationSet> </transformationSets> </configuration> </plugin> <plugin> 
+			<groupId>org.codehaus.mojo</groupId> <artifactId>build-helper-maven-plugin</artifactId> 
+			<inherited>false</inherited> <executions> <execution> <id>attach-artifacts</id> 
+			<phase>package</phase> <goals> <goal>attach-artifact</goal> </goals> <configuration> 
+			<artifacts> <artifact> <file>${project.build.directory}/effective-pom/spring-boot-dependencies.xml</file> 
+			<type>effective-pom</type> </artifact> </artifacts> </configuration> </execution> 
+			</executions> </plugin> spring-boot-dependencies end spring-boot-starter-parent 
+			begin Apply more sensible defaults for user projects <plugin> <groupId>org.apache.maven.plugins</groupId> 
+			<artifactId>maven-failsafe-plugin</artifactId> <executions> <execution> <goals> 
+			<goal>integration-test</goal> <goal>verify</goal> </goals> </execution> </executions> 
+			</plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-jar-plugin</artifactId> 
+			<configuration> <archive> <manifest> <mainClass>${start-class}</mainClass> 
+			<addDefaultImplementationEntries>true</addDefaultImplementationEntries> </manifest> 
+			</archive> </configuration> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
+			<artifactId>maven-surefire-plugin</artifactId> <configuration> <includes> 
+			<include>**/*Tests.java</include> <include>**/*Test.java</include> </includes> 
+			<excludes> <exclude>**/Abstract*.java</exclude> </excludes> </configuration> 
+			</plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-war-plugin</artifactId> 
+			<configuration> <failOnMissingWebXml>false</failOnMissingWebXml> <archive> 
+			<manifest> <mainClass>${start-class}</mainClass> <addDefaultImplementationEntries>true</addDefaultImplementationEntries> 
+			</manifest> </archive> </configuration> </plugin> <plugin> <groupId>org.codehaus.mojo</groupId> 
+			<artifactId>exec-maven-plugin</artifactId> <configuration> <mainClass>${start-class}</mainClass> 
+			</configuration> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
+			<artifactId>maven-resources-plugin</artifactId> <configuration> <delimiters> 
+			<delimiter>${resource.delimiter}</delimiter> </delimiters> <useDefaultDelimiters>false</useDefaultDelimiters> 
+			</configuration> </plugin> <plugin> <groupId>pl.project13.maven</groupId> 
+			<artifactId>git-commit-id-plugin</artifactId> <executions> <execution> <goals> 
+			<goal>revision</goal> </goals> </execution> </executions> <configuration> 
+			<verbose>true</verbose> <dateFormat>yyyy-MM-dd'T'HH:mm:ssZ</dateFormat> <generateGitPropertiesFile>true</generateGitPropertiesFile> 
+			<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename> 
+			</configuration> </plugin> Support our own plugin <plugin> <groupId>org.springframework.boot</groupId> 
+			<artifactId>spring-boot-maven-plugin</artifactId> <executions> <execution> 
+			<goals> <goal>repackage</goal> </goals> </execution> </executions> <configuration> 
+			<mainClass>${start-class}</mainClass> </configuration> </plugin> Support 
+			shade packaging (if the user does not want to use our plugin) <plugin> <groupId>org.apache.maven.plugins</groupId> 
+			<artifactId>maven-shade-plugin</artifactId> <dependencies> <dependency> <groupId>org.springframework.boot</groupId> 
+			<artifactId>spring-boot-maven-plugin</artifactId> <version>1.5.10.RELEASE</version> 
+			</dependency> </dependencies> <configuration> <keepDependenciesWithProvidedScope>true</keepDependenciesWithProvidedScope> 
+			<createDependencyReducedPom>true</createDependencyReducedPom> <filters> <filter> 
+			<artifact>*:*</artifact> <excludes> <exclude>META-INF/*.SF</exclude> <exclude>META-INF/*.DSA</exclude> 
+			<exclude>META-INF/*.RSA</exclude> </excludes> </filter> </filters> </configuration> 
+			<executions> <execution> <phase>package</phase> <goals> <goal>shade</goal> 
+			</goals> <configuration> <transformers> <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer"> 
+			<resource>META-INF/spring.handlers</resource> </transformer> <transformer 
+			implementation="org.springframework.boot.maven.PropertiesMergingResourceTransformer"> 
+			<resource>META-INF/spring.factories</resource> </transformer> <transformer 
+			implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer"> 
+			<resource>META-INF/spring.schemas</resource> </transformer> <transformer 
+			implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" 
+			/> <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"> 
+			<mainClass>${start-class}</mainClass> </transformer> </transformers> </configuration> 
+			</execution> </executions> </plugin> spring-boot-starter-parent end </plugins> -->
 	</build>
 
 </project>
