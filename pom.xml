@@ -8,6 +8,18 @@
 	<packaging>pom</packaging>
 	<name>fund-platform</name>
 	<description>fund-platform practice</description>
+
+	<modules>
+	<!-- 	
+	    <module>common-share</module>
+		<module>trade</module>
+		<module>batch</module>
+		<module>sample</module>
+		<module>mock-supernet</module>
+		<module>mock-file</module> 
+		-->
+	</modules>
+
 	<properties>
 		<!-- spring-boot-dependencies begin -->
 		<!-- Dependency versions -->
@@ -198,15 +210,6 @@
 		<commons-compress.version>1.15</commons-compress.version>
 		<jsch.version>0.1.54</jsch.version>
 	</properties>
-
-	<modules>
-		<module>common-share</module>
-		<module>trade</module>
-		<module>batch</module>
-		<module>sample</module>
-		<module>mock-supernet</module>
-		<module>mock-file</module>
-	</modules>
 
 	<dependencyManagement>
 		<dependencies>

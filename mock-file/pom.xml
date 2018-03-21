@@ -44,12 +44,12 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 		</dependency>
-		<!-- local -->
+		<!-- local jar lib dir exec follow command line,install to local -->
+		<!-- mvn install:install-file -Dfile=swingx-core-1.6.2.jar -DgroupId=org.jdesktop -DartifactId=swingx-core -Dversion=1.6.2 -Dpackaging=jar -DlocalRepositoryPath=D:\localCache\.m2\repository -->
 		<dependency>
-			<groupId>swingx-core</groupId>
+			<groupId>org.jdesktop</groupId>
 			<artifactId>swingx-core</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
+			<version>1.6.2</version>
 		</dependency>
 	</dependencies>
 
@@ -67,29 +67,6 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-install-plugin</artifactId>
-				<version>2.5.2</version>
-				<executions>
-					<execution>
-						<id>install-external</id>
-						<phase>clean</phase>
-						<configuration>
-							<file>${basedir}/lib/swingx-core-1.6.2.jar</file>
-							<repositoryLayout>default</repositoryLayout>
-							<groupId>swingx-core</groupId>
-							<artifactId>swingx-core</artifactId>
-							<version>1.6.2</version>
-							<packaging>jar</packaging>
-							<generatePom>true</generatePom>
-						</configuration>
-						<goals>
-							<goal>install-file</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
