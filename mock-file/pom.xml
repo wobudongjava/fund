@@ -45,7 +45,7 @@
 			<artifactId>logback-classic</artifactId>
 		</dependency>
 		<!-- local jar lib dir exec follow command line,install to local -->
-		<!-- mvn install:install-file -Dfile=swingx-core-1.6.2.jar -DgroupId=org.jdesktop -DartifactId=swingx-core -Dversion=1.6.2 -Dpackaging=jar -DlocalRepositoryPath=D:\localCache\.m2\repository -->
+		<!-- mvn install:install-file -Dfile=swingx-core-1.6.2.jar -DgroupId=org.jdesktop -DartifactId=swingx-core -Dversion=1.6.2 -Dpackaging=jar -DlocalRepositoryPath=local repository path-->
 		<dependency>
 			<groupId>org.jdesktop</groupId>
 			<artifactId>swingx-core</artifactId>
