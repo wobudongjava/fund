@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<context id="DEV" targetRuntime="MyBatis3">
+		<property name="javaFileEncoding" value="UTF-8" />
+        <!-- 插件 -->
+		<plugin type="org.mybatis.generator.plugins.MapperConfigPlugin">
+			<property name="fileName" value="sqlmap-config.xml" />
+			<property name="targetPackage" value="mybatis" />
+			<property name="targetProject" value="MBG-wp" />
+		</plugin>
+
+		<plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+			<property name="searchString" value="DOExample$" />
+			<property name="replaceString" value="Criteria" />
+		</plugin>
+
+        <!-- 注释相关 -->
+		<commentGenerator>
+			<property name="suppressDate" value="false" />
+			<property name="suppressAllComments" value="true"/>
+		</commentGenerator>
+		
+        <!-- 数据库连接 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver" userId="root" password="123456" connectionURL="jdbc:mysql://localhost/fund" />
+
+		<!-- 默认false:DECIMAL,NUMERIC解析为Integer;true:DECIMAL,NUMERIC解析为java.math.BigDecimal -->
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="true" />
+		</javaTypeResolver>
+
+		<!-- 生成POJO类 -->
+		<javaModelGenerator targetProject="MBG-wp"
+			targetPackage="com.wo.bu.dong.sample.dbDO">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="true" />
+			<!-- 从数据库返回的值被清理前后的空格 -->
+			<property name="trimStrings" value="true" />
+			<!-- 生成的DO均继承此类 -->
+			<property name="rootClass" value="com.wo.bu.dong.common.base.BaseDTO" />
+		</javaModelGenerator>
+
+		<!-- sqlMapGenerator:生成mapper映射文件 -->
+		<sqlMapGenerator targetProject="MBG-wp"
+			targetPackage="mybatis.sqlmap">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="false" />
+		</sqlMapGenerator>
+
+		<!-- javaClientGenerator：生成mapper接口 -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetProject="MBG-wp" targetPackage="com.wo.bu.dong.sample.dao">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="false" />
+		</javaClientGenerator>
+
+		<table schema="fund" tableName="sample" domainObjectName="SampleDO" enableCountByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" selectByExampleQueryId="false"
+			enableDeleteByPrimaryKey="true" enableSelectByPrimaryKey="true"
+			enableUpdateByPrimaryKey="true">
+		</table>
+		
+	</context>
+</generatorConfiguration>

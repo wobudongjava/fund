@@ -10,14 +10,8 @@
 	<description>fund-platform practice</description>
 
 	<modules>
-	<!-- 	
-	    <module>common-share</module>
-		<module>trade</module>
-		<module>batch</module>
-		<module>sample</module>
-		<module>mock-supernet</module>
-		<module>mock-file</module> 
-		-->
+		<!-- <module>common-share</module> <module>trade</module> <module>batch</module> 
+			<module>sample</module> <module>mock-supernet</module> <module>mock-file</module> -->
 	</modules>
 
 	<properties>
@@ -209,6 +203,7 @@
 		<commons-io-version>2.6</commons-io-version>
 		<commons-compress.version>1.15</commons-compress.version>
 		<jsch.version>0.1.54</jsch.version>
+		<quartz.version>2.2.1</quartz.version>
 	</properties>
 
 	<dependencyManagement>
@@ -2832,6 +2827,12 @@
 				<groupId>com.opencsv</groupId>
 				<artifactId>opencsv</artifactId>
 				<version>4.1</version>
+			</dependency>
+			<!-- quartz -->
+			<dependency>
+				<groupId>org.quartz-scheduler</groupId>
+				<artifactId>quartz</artifactId>
+				<version>${quartz.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
