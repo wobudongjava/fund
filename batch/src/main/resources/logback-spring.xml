@@ -52,17 +52,24 @@
     
     <springProfile name="dev">
         <!-- configuration to be enabled when the "dev" profile is active -->
-	    <root level="INFO">
-	        <appender-ref ref="STDOUT" />
-	    </root>
+        <root level="INFO">
+            <appender-ref ref="STDOUT" />
+        </root>
+    </springProfile>
+    
+    <springProfile name="dev-debug">
+        <!-- configuration to be enabled when the "dev" profile is active -->
+        <root level="DEBUG">
+            <appender-ref ref="STDOUT" />
+        </root>
     </springProfile>
 
     <springProfile name="test, production">
         <!-- configuration to be enabled when the "test" or "production" profiles are active -->
-	    <root level="INFO">
-	        <appender-ref ref="INFOOUTFILE" />
-	        <appender-ref ref="ERROROUTFILE" />
-	    </root>
+        <root level="INFO">
+            <appender-ref ref="INFOOUTFILE" />
+            <appender-ref ref="ERROROUTFILE" />
+        </root>
     </springProfile>
 
     <springProfile name="!production">
