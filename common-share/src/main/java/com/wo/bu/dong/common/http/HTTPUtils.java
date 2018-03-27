@@ -1,4 +1,4 @@
-package com.wo.bu.dong.common.util;
+package com.wo.bu.dong.common.http;
 
 import java.io.IOException;
 import java.net.URI;
@@ -37,8 +37,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class HTTPUtils {
 
-    public static String post(String url, String contentType, Map<String, Object> params, String paramCharset) {
-        log.info("post==> begin, params={}", url, contentType, params, paramCharset);
+    public static String post(HttpReq req) {
+        log.info("post==> begin, params={}", req);
+        String url = req.getUrl();
+        Map<String, Object> params = req.getParams();
+        String paramCharset = req.getParamCharset();
+        String contentType = req.getContentType();
         // url check
         if (StringUtils.isBlank(url)) {
             log.warn("post, url must not be empty");
@@ -47,22 +51,19 @@ public class HTTPUtils {
 
         try (PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager();
                 CloseableHttpClient httpclient = HttpClients.custom().setConnectionManager(connManager).build();) {
-            // Create connection configuration
+
             ConnectionConfig connectionConfig = ConnectionConfig.custom().setMalformedInputAction(CodingErrorAction.IGNORE).setUnmappableInputAction(CodingErrorAction.IGNORE)
                     .setCharset(Consts.UTF_8).build();
-            // Configure the connection manager to use connection configuration either
-            // by default or for a specific host.
             connManager.setDefaultConnectionConfig(connectionConfig);
-            // Configure total max or per route limits for persistent connections
-            // that can be kept in the pool or leased by the connection manager.
             connManager.setMaxTotal(100);
             connManager.setDefaultMaxPerRoute(10);
+            //send request
             RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000).setConnectionRequestTimeout(5000).build();
             HttpPost httpPost = new HttpPost(url);
             httpPost.setConfig(requestConfig);
             //set params to entity
-            if (params != null && !params.isEmpty()) {
-                if (StringUtils.isEmpty(contentType) || ContentType.APPLICATION_FORM_URLENCODED.getMimeType().equalsIgnoreCase(contentType)) {
+            if (MapUtils.isNotEmpty(req.getParams())) {
+                if (StringUtils.isEmpty(req.getContentType()) || ContentType.APPLICATION_FORM_URLENCODED.getMimeType().equalsIgnoreCase(contentType)) {
                     //HTML form content type
                     List<NameValuePair> nvps = new ArrayList<>(params.size());
                     for (Entry<String, Object> entry : params.entrySet()) {
@@ -70,7 +71,7 @@ public class HTTPUtils {
                         NameValuePair nvp = new BasicNameValuePair(entry.getKey(), value);
                         nvps.add(nvp);
                     }
-                    httpPost.setEntity(new UrlEncodedFormEntity(nvps, paramCharset));
+                    httpPost.setEntity(new UrlEncodedFormEntity(nvps, contentType));
                 } else if (ContentType.APPLICATION_JSON.getMimeType().equalsIgnoreCase(contentType)) {
                     //json content type
                     if (StringUtils.isNotBlank(paramCharset)) {
@@ -110,8 +111,10 @@ public class HTTPUtils {
         return null;
     }
 
-    public static String get(String url, String contentType, Map<String, Object> params, String paramCharset) {
-        log.info("get==> begin, params={}", url, contentType, params, paramCharset);
+    public static String get(HttpReq req) {
+        log.info("get==> begin, params={}", req);
+        String url = req.getUrl();
+        Map<String, Object> params = req.getParams();
         // url check
         if (StringUtils.isBlank(url)) {
             log.warn("get, url must not be empty");
@@ -120,17 +123,11 @@ public class HTTPUtils {
 
         try (PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager();
                 CloseableHttpClient httpclient = HttpClients.custom().setConnectionManager(connManager).build();) {
-            // Create connection configuration
             ConnectionConfig connectionConfig = ConnectionConfig.custom().setMalformedInputAction(CodingErrorAction.IGNORE).setUnmappableInputAction(CodingErrorAction.IGNORE)
                     .setCharset(Consts.UTF_8).build();
-            // Configure the connection manager to use connection configuration either
-            // by default or for a specific host.
             connManager.setDefaultConnectionConfig(connectionConfig);
-            // Configure total max or per route limits for persistent connections
-            // that can be kept in the pool or leased by the connection manager.
             connManager.setMaxTotal(100);
             connManager.setDefaultMaxPerRoute(10);
-            RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000).setConnectionRequestTimeout(5000).build();
             //set params to entity
             if (MapUtils.isNotEmpty(params)) {
                 StringUtils.appendIfMissing(url, "?", "?");
@@ -142,6 +139,8 @@ public class HTTPUtils {
                 }
                 url = StringUtils.removeEnd(urlBuilder.toString(), "&");
             }
+            //send request
+            RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000).setConnectionRequestTimeout(5000).build();
             HttpGet httpGet = new HttpGet(URI.create(url));
             httpGet.setConfig(requestConfig);
             log.info("get, Executing request {}", httpGet.getRequestLine());
