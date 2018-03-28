@@ -1,7 +1,7 @@
 package com.wo.bu.dong.config;
 
 import org.quartz.Scheduler;
-import org.quartz.Trigger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
@@ -12,8 +12,11 @@ import com.wo.bu.dong.batch.api.ExecJobBusiness;
 @Configuration
 public class ScheduleConfig {
 
-    @Bean(name = "testJob")
-    public MethodInvokingJobDetailFactoryBean testJob(ExecJobBusiness execJobBusiness) {
+    @Autowired
+    private ExecJobBusiness execJobBusiness;
+
+    @Bean //default beanBame = methodName
+    public MethodInvokingJobDetailFactoryBean testJob() {
         MethodInvokingJobDetailFactoryBean bean = new MethodInvokingJobDetailFactoryBean();
         String targetMethod = "execute";
         bean.setName("testJob");
@@ -24,19 +27,19 @@ public class ScheduleConfig {
         return bean;
     }
 
-    @Bean(name = "testTrigger")
-    public CronTriggerFactoryBean testTrigger(MethodInvokingJobDetailFactoryBean jobDetail) {
+    @Bean
+    public CronTriggerFactoryBean testTrigger() {
         CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
-        bean.setJobDetail(jobDetail.getObject());
-        //run every morning at 6 AM
+        bean.setJobDetail(testJob().getObject());
+        //run every 3 seconds
         bean.setCronExpression("0/3 * * * * ? *");
         return bean;
     }
 
-    @Bean(name = "scheduler232")
-    public SchedulerFactoryBean scheduler(Trigger triggers) {
+    @Bean
+    public SchedulerFactoryBean scheduler() {
         SchedulerFactoryBean bean = new SchedulerFactoryBean();
-        bean.setTriggers(triggers);
+        bean.setTriggers(testTrigger().getObject());
         return bean;
     }
 }
