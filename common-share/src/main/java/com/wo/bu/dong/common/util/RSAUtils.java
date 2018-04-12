@@ -21,6 +21,8 @@ import org.apache.commons.codec.binary.Base64;
  * RSA公钥/私钥/签名工具包
  */
 public class RSAUtils {
+    private RSAUtils() {
+    }
 
     /**
      * 加密算法RSA

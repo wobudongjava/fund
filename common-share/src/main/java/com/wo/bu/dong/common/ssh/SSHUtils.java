@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class SSHUtils {
+    private SSHUtils() {
+    }
 
     /**
      * @param host 主机

@@ -22,6 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class SFTPUtils {
+    private SFTPUtils() {
+    }
 
     private static String host     = "192.168.56.101";
     private static int    port;

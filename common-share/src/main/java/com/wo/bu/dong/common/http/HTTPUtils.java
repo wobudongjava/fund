@@ -36,6 +36,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class HTTPUtils {
+    private HTTPUtils() {
+    }
 
     public static String post(HttpReq req) {
         log.info("post==> begin, params={}", req);

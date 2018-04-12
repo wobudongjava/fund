@@ -19,6 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ZipUtils {
+    private ZipUtils() {
+    }
 
     /**
      * 压缩源文件为zip文件

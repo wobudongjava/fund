@@ -7,22 +7,25 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+
 import com.wo.bu.dong.batch.api.ExecJobBusiness;
 
 @Configuration
 public class ScheduleConfig {
 
     @Autowired
-    private ExecJobBusiness execJobBusiness;
+    private ExecJobBusiness     execJobBusiness;
+
+    private static final String TARGET_METHOD = "execute";
+    private static final String DEFAULT_GROUP = Scheduler.DEFAULT_GROUP;
 
     @Bean //default beanBame = methodName
     public MethodInvokingJobDetailFactoryBean testJob() {
         MethodInvokingJobDetailFactoryBean bean = new MethodInvokingJobDetailFactoryBean();
-        String targetMethod = "execute";
         bean.setName("testJob");
-        bean.setGroup(Scheduler.DEFAULT_GROUP);
+        bean.setGroup(DEFAULT_GROUP);
         bean.setTargetObject(execJobBusiness);
-        bean.setTargetMethod(targetMethod);
+        bean.setTargetMethod(TARGET_METHOD);
         bean.setConcurrent(false);
         return bean;
     }
