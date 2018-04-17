@@ -8,13 +8,13 @@ import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
-import com.wo.bu.dong.batch.api.ExecJobBusiness;
+import com.wo.bu.dong.batch.api.ExecJobTask;
 
 @Configuration
 public class ScheduleConfig {
 
     @Autowired
-    private ExecJobBusiness     execJobBusiness;
+    private ExecJobTask     execJobBusiness;
 
     private static final String TARGET_METHOD = "execute";
     private static final String DEFAULT_GROUP = Scheduler.DEFAULT_GROUP;
