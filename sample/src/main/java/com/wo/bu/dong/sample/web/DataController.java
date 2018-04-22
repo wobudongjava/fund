@@ -2,6 +2,7 @@ package com.wo.bu.dong.sample.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -27,7 +28,7 @@ public class DataController {
         return result;
     }
 
-    @GetMapping("notNull")
+    @PostMapping("notNull")
     @ResponseBody
     public ResultDTO<DataDTO> sampleType() {
         log.info("sampleType==> begin");

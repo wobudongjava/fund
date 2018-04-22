@@ -7,10 +7,12 @@ import javax.validation.constraints.Size;
 import com.wo.bu.dong.common.base.BaseReqDTO;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class CarReq extends BaseReqDTO {
     private static final long serialVersionUID = 1L;
 

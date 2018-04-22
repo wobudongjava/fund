@@ -3,6 +3,8 @@ package com.wo.bu.dong.sample.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -20,10 +22,10 @@ public class ValidationController {
     @Autowired
     private ValidationService validationService;
 
-    @GetMapping("valid")
+    @PostMapping("valid")
     @ResponseBody
-    public ResultDTO<CarDTO> carIsValid() {
-        CarReq car = new CarReq("Sunny", "DD-AB-123", 2);
+    public ResultDTO<CarDTO> carIsValid(@RequestBody CarReq car) {
+
         log.info("carIsValid==> begin, params={}", car);
 
         ResultDTO<CarDTO> result = null;
