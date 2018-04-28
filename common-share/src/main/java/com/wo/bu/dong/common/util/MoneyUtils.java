@@ -5,7 +5,7 @@ import java.math.RoundingMode;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-public class MoneyUtil {
+public class MoneyUtils {
 
     /**
      * 与0比较
