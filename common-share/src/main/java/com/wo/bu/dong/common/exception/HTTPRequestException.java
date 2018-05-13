@@ -1,7 +1,7 @@
 package com.wo.bu.dong.common.exception;
 
 /**
- * DAO层异常
+ * HTTP请求异常
  */
 public class HTTPRequestException extends RuntimeException {
 

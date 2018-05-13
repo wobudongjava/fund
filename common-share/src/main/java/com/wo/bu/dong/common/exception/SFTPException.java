@@ -1,7 +1,7 @@
 package com.wo.bu.dong.common.exception;
 
 /**
- * DAO层异常
+ * SFTP异常
  */
 public class SFTPException extends RuntimeException {
 
