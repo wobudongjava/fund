@@ -1,15 +1,14 @@
 package com.wo.bu.dong.common.lock;
 
-public interface MyLock {
+public interface SysLock {
 
     /**
      * 默认有效时间1秒
      * 
      * @param uniqueKey 唯一键
-     * @param value 值
      * @return true:锁成功 false:锁失败
      */
-    boolean tryLock(String uniqueKey, String value);
+    boolean tryLock(String uniqueKey);
 
     /**
      * @param uniqueKey 唯一键
@@ -17,7 +16,7 @@ public interface MyLock {
      * @param time 过期时间（单位：秒）
      * @return true:锁成功 false:锁失败
      */
-    boolean tryLock(String uniqueKey, String value, int time);
+    boolean tryLock(String uniqueKey, int time);
 
     /**
      * @param uniqueKey 唯一键
@@ -33,7 +32,7 @@ public interface MyLock {
      * @param value 值
      * @return true:锁成功 false:锁失败
      */
-    boolean tryLock(BusinessPrefixEnum uniqueKeyPrefix, String uniqueKey, String value);
+    boolean tryLock(BusinessPrefixEnum uniqueKeyPrefix, String uniqueKey);
 
     /**
      * @param uniqueKeyPrefix 唯一键前缀
@@ -42,7 +41,7 @@ public interface MyLock {
      * @param time 过期时间（单位：秒）
      * @return true:锁成功 false:锁失败
      */
-    boolean tryLock(BusinessPrefixEnum uniqueKeyPrefix, String uniqueKey, String value, int time);
+    boolean tryLock(BusinessPrefixEnum uniqueKeyPrefix, String uniqueKey, int time);
 
     /**
      * @param uniqueKeyPrefix 唯一键前缀

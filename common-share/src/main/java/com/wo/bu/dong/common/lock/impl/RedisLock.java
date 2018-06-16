@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.wo.bu.dong.common.exception.LockException;
 import com.wo.bu.dong.common.lock.BusinessPrefixEnum;
-import com.wo.bu.dong.common.lock.MyLock;
+import com.wo.bu.dong.common.lock.SysLock;
 
 import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
@@ -15,18 +15,19 @@ import redis.clients.jedis.Jedis;
  */
 @Component
 @Slf4j
-public class RedisLock implements MyLock {
+public class RedisLock implements SysLock {
 
     @Autowired
     private JedisPoolManager jedisPoolManager;
 
     @Override
-    public boolean tryLock(String uniqueKey, String value) {
-        return tryLock(uniqueKey, value, 1);
+    public boolean tryLock(String uniqueKey) {
+        return tryLock(uniqueKey, 1);
     }
 
     @Override
-    public boolean tryLock(String uniqueKey, String value, int time) {
+    public boolean tryLock(String uniqueKey, int time) {
+        String value = Thread.currentThread().getId() + "";
         log.debug("tryLock==> begin,uniqueKey={},value={},time={}", uniqueKey, value, time);
         Jedis jedis = null;
         try {
@@ -35,7 +36,6 @@ public class RedisLock implements MyLock {
             //expx(EX = seconds; PX = milliseconds)
             String result = jedis.set(uniqueKey, value, "NX", "EX", time);
             log.debug("tryLock, set:result={}", result);
-            log.debug("tryLock==> end");
             return "OK".equals(result);
         } catch (Exception e) {
             log.error("tryLock, 加锁异常,uniqueKey={},value={},time={}", uniqueKey, value, time, e);
@@ -49,16 +49,20 @@ public class RedisLock implements MyLock {
 
     @Override
     public boolean unlock(String uniqueKey) {
+        String value = Thread.currentThread().getId() + "";
         log.debug("unlock==> begin, uniqueKey={}", uniqueKey);
         Jedis jedis = null;
         try {
             jedis = jedisPoolManager.getJedis();
+            if (!value.equals(jedis.get(uniqueKey))) {
+                log.warn("unlock, thread:{} already deleted", value);
+                return true;
+            }
             Long result = jedis.del(uniqueKey);
-            log.debug("tryLock, del:result={}", result);
-            log.debug("unlock==> end");
+            log.debug("unlock, del:result={}", result);
             return result > 0;
         } catch (Exception e) {
-            log.error("tryLock, 解锁异常,uniqueKey={}", uniqueKey);
+            log.error("unlock, 解锁异常,uniqueKey={}", uniqueKey);
             throw new LockException("解锁异常", e);
         } finally {
             if (jedis != null) {
@@ -68,13 +72,13 @@ public class RedisLock implements MyLock {
     }
 
     @Override
-    public boolean tryLock(BusinessPrefixEnum uniqueKeyPrefix, String uniqueKey, String value) {
-        return tryLock(uniqueKeyPrefix + "-" + uniqueKey, value, 1);
+    public boolean tryLock(BusinessPrefixEnum uniqueKeyPrefix, String uniqueKey) {
+        return tryLock(uniqueKeyPrefix + "-" + uniqueKey, 1);
     }
 
     @Override
-    public boolean tryLock(BusinessPrefixEnum uniqueKeyPrefix, String uniqueKey, String value, int time) {
-        return tryLock(uniqueKeyPrefix + "-" + uniqueKey, value, time);
+    public boolean tryLock(BusinessPrefixEnum uniqueKeyPrefix, String uniqueKey, int time) {
+        return tryLock(uniqueKeyPrefix + "-" + uniqueKey, time);
     }
 
     @Override

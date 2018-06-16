@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.wo.bu.dong.common.base.ResultDTO;
 import com.wo.bu.dong.common.exception.LockException;
 import com.wo.bu.dong.common.lock.BusinessPrefixEnum;
-import com.wo.bu.dong.common.lock.MyLock;
+import com.wo.bu.dong.common.lock.SysLock;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("lock")
 public class LockController {
     @Autowired
-    private MyLock lock;
+    private SysLock lock;
 
     @GetMapping("demo")
     @ResponseBody
@@ -29,8 +29,7 @@ public class LockController {
         boolean isLocked = false;
         try {
             //加锁
-            String value = "value_" + uniqueKey;
-            isLocked = lock.tryLock(BusinessPrefixEnum.SAMPLE, uniqueKey, value);
+            isLocked = lock.tryLock(BusinessPrefixEnum.SAMPLE, uniqueKey);
             if (!isLocked) {
                 throw new LockException("未获取到锁");
             }
