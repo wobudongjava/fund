@@ -3,7 +3,7 @@ package com.wo.bu.dong.common.base;
 /**
  * 接口处理结果状态
  */
-public enum BaseFinalStateEnum implements BaseEnum {
+public enum BaseResultStatusEnum implements BaseEnum {
     SUCCESS("SUCCESS", "成功"),
     FAIL("FAIL", "失败"),
     EXCEPTION("EXCEPTION", "异常"),
@@ -12,7 +12,7 @@ public enum BaseFinalStateEnum implements BaseEnum {
     private String code;
     private String message;
 
-    private BaseFinalStateEnum(String code, String message) {
+    private BaseResultStatusEnum(String code, String message) {
         this.code = code;
         this.message = message;
     }

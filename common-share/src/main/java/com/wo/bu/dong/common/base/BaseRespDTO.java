@@ -8,35 +8,35 @@ import lombok.Setter;
 public class BaseRespDTO extends BaseDTO {
     private static final long  serialVersionUID = 1L;
 
-    private BaseFinalStateEnum status;               //处理结果状态
+    private BaseResultStatusEnum status;               //处理结果状态
     private String             code;                 //业务应答码
     private String             message;              //业务描述
     private String             detail;               //业务描述详细信息
 
     public BaseRespDTO() {
-        this.status = BaseFinalStateEnum.SUCCESS;
+        this.status = BaseResultStatusEnum.SUCCESS;
         this.code = BaseCodeEnum.SUCCESS.getCode();
         this.message = BaseCodeEnum.SUCCESS.getMessage();
     }
 
-    public BaseRespDTO(BaseFinalStateEnum status) {
+    public BaseRespDTO(BaseResultStatusEnum status) {
         this.status = status;
     }
 
-    public BaseRespDTO(BaseFinalStateEnum status, BaseEnum code) {
+    public BaseRespDTO(BaseResultStatusEnum status, BaseEnum code) {
         this.status = status;
         this.code = code.getCode();
         this.message = code.getMessage();
     }
 
-    public BaseRespDTO(BaseFinalStateEnum status, BaseEnum code, String detail) {
+    public BaseRespDTO(BaseResultStatusEnum status, BaseEnum code, String detail) {
         this.status = status;
         this.code = code.getCode();
         this.message = code.getMessage();
         this.detail = detail;
     }
 
-    public void setResult(BaseFinalStateEnum status) {
+    public void setResult(BaseResultStatusEnum status) {
         this.status = status;
     }
 
@@ -49,18 +49,18 @@ public class BaseRespDTO extends BaseDTO {
         this.detail = detail;
     }
 
-    public void setResult(BaseFinalStateEnum status, BaseEnum code) {
+    public void setResult(BaseResultStatusEnum status, BaseEnum code) {
         this.status = status;
         this.code = code.getCode();
         this.message = code.getMessage();
     }
 
-    public void setResult(BaseFinalStateEnum status, String detail) {
+    public void setResult(BaseResultStatusEnum status, String detail) {
         this.status = status;
         this.detail = detail;
     }
 
-    public void setResult(BaseFinalStateEnum status, BaseEnum code, String detail) {
+    public void setResult(BaseResultStatusEnum status, BaseEnum code, String detail) {
         this.status = status;
         this.code = code.getCode();
         this.message = code.getMessage();
@@ -74,17 +74,17 @@ public class BaseRespDTO extends BaseDTO {
     }
 
     public void setResultOfSysException(String detail) {
-        this.status = BaseFinalStateEnum.EXCEPTION;
+        this.status = BaseResultStatusEnum.EXCEPTION;
         this.code = BaseCodeEnum.SYS_EXCEPTION.getCode();
         this.message = BaseCodeEnum.SYS_EXCEPTION.getMessage();
         this.detail = detail;
     }
 
     public boolean isSuccess() {
-        return this.status == BaseFinalStateEnum.SUCCESS;
+        return this.status == BaseResultStatusEnum.SUCCESS;
     }
 
     public static BaseRespDTO getResultOfSysException(String detail) {
-        return new BaseRespDTO(BaseFinalStateEnum.EXCEPTION, BaseCodeEnum.SYS_EXCEPTION, detail);
+        return new BaseRespDTO(BaseResultStatusEnum.EXCEPTION, BaseCodeEnum.SYS_EXCEPTION, detail);
     }
 }

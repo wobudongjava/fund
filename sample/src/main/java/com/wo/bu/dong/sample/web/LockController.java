@@ -32,7 +32,7 @@ public class LockController {
         boolean isLocked = false;
         try {
             //加锁
-            isLocked = lock.tryLock(BusinessPrefixEnum.SAMPLE, uniqueKey, 60);
+            isLocked = lock.tryLock(uniqueKey, 60);
             if (!isLocked) {
                 throw new LockException("未获取到锁");
             }

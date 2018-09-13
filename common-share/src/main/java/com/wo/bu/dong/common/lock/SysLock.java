@@ -1,5 +1,7 @@
 package com.wo.bu.dong.common.lock;
 
+import com.wo.bu.dong.common.exception.LockException;
+
 public interface SysLock {
 
     /**
@@ -7,6 +9,7 @@ public interface SysLock {
      * 
      * @param uniqueKey 唯一键
      * @return true:锁成功 false:锁失败
+     * @throws LockException 设置key异常时
      */
     boolean tryLock(String uniqueKey);
 
@@ -15,6 +18,7 @@ public interface SysLock {
      * @param value 值
      * @param time 过期时间（单位：秒）
      * @return true:锁成功 false:锁失败
+     * @throws LockException 设置key异常时
      */
     boolean tryLock(String uniqueKey, int time);
 
@@ -31,6 +35,7 @@ public interface SysLock {
      * @param uniqueKey 唯一键
      * @param value 值
      * @return true:锁成功 false:锁失败
+     * @throws LockException 设置key异常时
      */
     boolean tryLock(BusinessPrefixEnum uniqueKeyPrefix, String uniqueKey);
 
@@ -40,6 +45,7 @@ public interface SysLock {
      * @param value 值
      * @param time 过期时间（单位：秒）
      * @return true:锁成功 false:锁失败
+     * @throws LockException 设置key异常时
      */
     boolean tryLock(BusinessPrefixEnum uniqueKeyPrefix, String uniqueKey, int time);
 
