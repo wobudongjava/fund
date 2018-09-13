@@ -1,5 +1,7 @@
 package com.wo.bu.dong.common.lock.impl;
 
+import java.util.Collections;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,9 +18,14 @@ import redis.clients.jedis.Jedis;
 @Component
 @Slf4j
 public class RedisLock implements SysLock {
+    private static final String  LOCK_SUCCESS              = "OK";
+    private static final String  SET_IF_NOT_EXIST          = "NX";
+    private static final String  SET_WITH_EXPIRE_TIME_UNIT = "EX";
+    private static final Integer LOCK_RELEASE_SUCCESS      = 1;
+    private static final Integer DEFAULT_TIMEOUT           = 1;
 
     @Autowired
-    private JedisPoolManager jedisPoolManager;
+    private JedisPoolManager     jedisPoolManager;
 
     @Override
     public boolean tryLock(String uniqueKey) {
@@ -34,9 +41,9 @@ public class RedisLock implements SysLock {
             jedis = jedisPoolManager.getJedis();
             //nxxx NX|XX, NX -- Only set the key if it does not already exist. XX -- Only set the keyif it already exist.
             //expx(EX = seconds; PX = milliseconds)
-            String result = jedis.set(uniqueKey, value, "NX", "EX", time);
+            String result = jedis.set(uniqueKey, value, SET_IF_NOT_EXIST, SET_WITH_EXPIRE_TIME_UNIT, time);
             log.debug("tryLock, set:result={}", result);
-            return "OK".equals(result);
+            return LOCK_SUCCESS.equals(result);
         } catch (Exception e) {
             log.error("tryLock, 加锁异常,uniqueKey={},value={},time={}", uniqueKey, value, time, e);
             throw new LockException("加锁异常", e);
@@ -54,16 +61,12 @@ public class RedisLock implements SysLock {
         Jedis jedis = null;
         try {
             jedis = jedisPoolManager.getJedis();
-            if (!value.equals(jedis.get(uniqueKey))) {
-                log.warn("unlock, thread:{} already deleted", value);
-                return true;
-            }
-            Long result = jedis.del(uniqueKey);
-            log.debug("unlock, del:result={}", result);
-            return result > 0;
+            String luaScript = "if redis.call('get',KEYS[1]) == ARGV[1] then return redis.call('del',KEYS[1]) else return 0 end";
+            Object result = jedis.eval(luaScript, Collections.singletonList(uniqueKey), Collections.singletonList(value));
+            return LOCK_RELEASE_SUCCESS.equals(result);
         } catch (Exception e) {
-            log.error("unlock, 解锁异常,uniqueKey={}", uniqueKey);
-            throw new LockException("解锁异常", e);
+            log.error("unlock, 解锁异常,uniqueKey={}", uniqueKey, e);
+            return false;
         } finally {
             if (jedis != null) {
                 jedis.close();
@@ -73,7 +76,7 @@ public class RedisLock implements SysLock {
 
     @Override
     public boolean tryLock(BusinessPrefixEnum uniqueKeyPrefix, String uniqueKey) {
-        return tryLock(uniqueKeyPrefix + "-" + uniqueKey, 1);
+        return tryLock(uniqueKeyPrefix + "-" + uniqueKey, DEFAULT_TIMEOUT);
     }
 
     @Override

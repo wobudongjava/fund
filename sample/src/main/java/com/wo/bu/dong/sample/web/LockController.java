@@ -1,5 +1,7 @@
 package com.wo.bu.dong.sample.web;
 
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,23 +28,27 @@ public class LockController {
         log.info("lock==> begin");
         ResultDTO<Void> result = null;
         String uniqueKey = System.currentTimeMillis() + "";
+        log.info("lock,uniqueKey:{}", uniqueKey);
         boolean isLocked = false;
         try {
             //加锁
-            isLocked = lock.tryLock(BusinessPrefixEnum.SAMPLE, uniqueKey);
+            isLocked = lock.tryLock(BusinessPrefixEnum.SAMPLE, uniqueKey, 60);
             if (!isLocked) {
                 throw new LockException("未获取到锁");
             }
             //业务处理
             result = new ResultDTO<>();
-            result.setDetail("加锁成功");
+            TimeUnit.SECONDS.sleep(20);
+            result.setDetail("业务处理成功");
         } catch (Exception e) {
             log.error("lock, 异常", e);
             result = ResultDTO.getResultOfSysException(e.getMessage());
         } finally {
             //解锁
             if (isLocked) {
-                lock.unlock(BusinessPrefixEnum.SAMPLE, uniqueKey);
+                if (!lock.unlock(BusinessPrefixEnum.SAMPLE, uniqueKey)) {
+                    log.error("lock,解锁失败");
+                }
             }
         }
         log.info("lock, result={}", result);
