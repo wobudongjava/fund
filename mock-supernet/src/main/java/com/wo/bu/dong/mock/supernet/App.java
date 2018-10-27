@@ -31,8 +31,8 @@ public class App {
     public static final String SERVER_MOCK_TXT = "server-mock.txt";
 
     public App() {
-        try {
-            ServerSocket ss = new ServerSocket(PORT);
+        try (ServerSocket ss = new ServerSocket(PORT);) {
+
             InetAddress ia = InetAddress.getByName(null);
 
             log.info("Server@" + ia + " start!");
@@ -47,7 +47,7 @@ public class App {
             }
 
         } catch (Exception e) {
-
+            log.error("服务异常", e);
         }
 
     }
