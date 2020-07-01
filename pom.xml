@@ -203,7 +203,7 @@
 		<commons-io-version>2.6</commons-io-version>
 		<commons-compress.version>1.18</commons-compress.version>
 		<jsch.version>0.1.54</jsch.version>
-		<quartz.version>2.2.1</quartz.version>
+		<quartz.version>2.3.2</quartz.version>
 		<poi-ooxml.version>3.17</poi-ooxml.version>
 	</properties>
 
